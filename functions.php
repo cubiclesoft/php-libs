@@ -26,8 +26,21 @@
 		}
 	}
 
+	function GitRepoChanged($rootpath)
+	{
+		chdir($rootpath);
+		ob_start();
+		system("git status");
+		$data = ob_get_contents();
+		ob_end_flush();
+
+		return (stripos($data, "Changes not staged for commit:") !== false || stripos($data, "Untracked files:") !== false);
+	}
+
 	function GitPull($srcpath)
 	{
+		$updated = 0;
+
 		$dir = opendir($srcpath);
 		if ($dir)
 		{
@@ -37,12 +50,19 @@
 				{
 					// Update the repo.
 					chdir($srcpath . "/" . $file);
+					ob_start();
 					system("git pull");
+					$data = ob_get_contents();
+					ob_end_flush();
+
+					if (stripos($data, "Already up-to-date.") === false)  $updated++;
 				}
 			}
 
 			closedir($dir);
 		}
+
+		return $updated;
 	}
 
 	$excludefiles = array(
@@ -153,13 +173,7 @@
 
 	function CommitRepo($rootpath)
 	{
-		chdir($rootpath);
-		ob_start();
-		system("git status");
-		$data = ob_get_contents();
-		ob_end_flush();
-
-		if (stripos($data, "Changes not staged for commit:") !== false || stripos($data, "Untracked files:") !== false)
+		if (GitRepoChanged($rootpath))
 		{
 			// Commit all the things.
 			system("git add -A");

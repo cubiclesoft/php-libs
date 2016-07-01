@@ -19,11 +19,12 @@
 	if (!is_dir($srcpath))  mkdir($srcpath);
 	if (!is_dir($destpath))  mkdir($destpath);
 
+	// Update the registered repo list.  If nothing has changed, exit.
+	$numchanged = (int)GitRepoChanged($rootpath) + GitPull($srcpath);
+	if (!$numchanged)  exit();
+
 	// Always do a full rebuild.
 	DeleteDirectory($destpath);
-
-	// Update the registered repo list.
-	GitPull($srcpath);
 
 	// Retrieve a list of all PHP files that contain 'class' + a name.
 	$files = array();
