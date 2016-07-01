@@ -28,7 +28,7 @@ Included and supported:
 * MIMEParser - Parses MIME content of all forms.  Intended primarily for use with POP3.  (support/mime_parser.php)
 * MultiAsyncHelper - Not for the feint of heart.  This class simplifies management of mixing multiple non-blocking objects.  See the Ultimate Web Scraper toolkit test suite for example usage.  (support/multi_async_helper.php)
 * POP3 - Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.  (support/pop3.php)
-* simple_html_dom - Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  [Shrugs]  (support/simple_html_dom.php)
+* simple_html_dom - Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  \[Shrugs\]  (support/simple_html_dom.php)
 * SMTP - Powerful set of static functions in a class for sending e-mail.  Full RFC support.  (support/smtp.php)
 * Str - Static functions in a class for doing basic, common, but missing string manipulation.  Common initialization routines for CubicleSoft applications.  Some minor carryover from extremely old C++ libraries.  (support/str_basics.php)
 * TagFilter - The world's most powerful tag filtering PHP class.  It is hard to use BUT it can clean up the worst HTML (e.g. Word HTML) in a single pass or extract data (or both).  As a direct result, it is blistering fast.  Many, many times faster and smaller than HTML Purifier, which was my previous go-to for HTML cleanup, but it is just as capable.  (support/tag_filter.php)

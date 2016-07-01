@@ -19,7 +19,7 @@
 	"MIMEParser": "Parses MIME content of all forms.  Intended primarily for use with POP3.",
 	"MultiAsyncHelper": "Not for the feint of heart.  This class simplifies management of mixing multiple non-blocking objects.  See the Ultimate Web Scraper toolkit test suite for example usage.",
 	"POP3": "Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.",
-	"simple_html_dom": "Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  [Shrugs]",
+	"simple_html_dom": "Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  \\[Shrugs\\]",
 	"SMTP": "Powerful set of static functions in a class for sending e-mail.  Full RFC support.",
 	"Str": "Static functions in a class for doing basic, common, but missing string manipulation.  Common initialization routines for CubicleSoft applications.  Some minor carryover from extremely old C++ libraries.",
 	"TagFilter": "The world's most powerful tag filtering PHP class.  It is hard to use BUT it can clean up the worst HTML (e.g. Word HTML) in a single pass or extract data (or both).  As a direct result, it is blistering fast.  Many, many times faster and smaller than HTML Purifier, which was my previous go-to for HTML cleanup, but it is just as capable.",
