@@ -115,7 +115,7 @@
 		}
 	}
 
-	function GetReadmeClassesAndSources(&$includedclasses, &$otherclasses, &$sources, $nameprefix, $files, $fileprefix, $srcpath)
+	function GetReadmeClassesAndSources($classes, &$includedclasses, &$otherclasses, &$sources, $nameprefix, $files, $fileprefix, $srcpath)
 	{
 		foreach ($classes as $name => $details)
 		{
@@ -161,7 +161,7 @@
 		$includedclasses = array();
 		$otherclasses = array();
 		$sources = array();
-		GetReadmeClassesAndSources($includedclasses, $otherclasses, $sources, $nameprefix, $files, $fileprefix, $srcpath);
+		GetReadmeClassesAndSources($classes, $includedclasses, $otherclasses, $sources, $nameprefix, $files, $fileprefix, $srcpath);
 
 		$data = file_get_contents($srcreadme);
 		$data = str_replace("@INCLUDECLASSES@", implode("\n", $includedclasses), $data);
