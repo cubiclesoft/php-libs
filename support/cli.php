@@ -158,11 +158,11 @@
 		}
 
 		// Gets a line of input from the user.  If the user supplies all information via the command-line, this could be entirely automated.
-		public static function GetUserInputWithArgs(&$args, $question, $default, $noparamsoutput = "", $flush = true)
+		public static function GetUserInputWithArgs(&$args, $question, $default, $noparamsoutput = "")
 		{
 			if (!count($args["params"]) && $noparamsoutput != "")  echo "\n" . $noparamsoutput . "\n";
 
-			echo $question . " [" . $default . "]:  ";
+			echo $question . ($default !== false ? " [" . $default . "]" : "") . ":  ";
 
 			if (count($args["params"]))
 			{
@@ -184,6 +184,38 @@
 			}
 
 			return $line;
+		}
+
+		// Obtains a valid line of input.  If the user supplies all information via the command-line, this could be entirely automated.
+		public static function GetLimitedUserInputWithArgs(&$args, $question, $default, $allowedoptionsprefix, $allowedoptions, $loop = true)
+		{
+			$noparamsoutput = $allowedoptionsprefix . "\n\n\t" . implode("\n\t", $allowedoptions) . "\n\n";
+
+			do
+			{
+				$result = self::GetUserInputWithArgs($args, $question, $default, $noparamsoutput);
+				$result2 = false;
+				foreach ($allowedoptions as $option)
+				{
+					if (!strcasecmp($option, $result))  $result2 = $option;
+				}
+				if ($loop && $result2 === false)  echo "Invalid option selected.\n";
+
+				$noparamsoutput = "";
+			} while ($loop && $result2 === false);
+
+			return $result2;
+		}
+
+		// Obtains Yes/No style input.
+		public static function GetYesNoUserInputWithArgs(&$args, $question, $default)
+		{
+			$default = (substr(strtoupper(trim($default)), 0, 1) === "Y" ? "Y" : "N");
+
+			$result = self::GetUserInputWithArgs($args, $question, $default);
+			$result = (substr(strtoupper(trim($result)), 0, 1) === "Y");
+
+			return $result;
 		}
 
 		// Tracks messages for a command-line interface app.
