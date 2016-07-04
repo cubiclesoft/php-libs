@@ -160,33 +160,52 @@
 		// Gets a line of input from the user.  If the user supplies all information via the command-line, this could be entirely automated.
 		public static function GetUserInputWithArgs(&$args, $question, $default, $noparamsoutput = "", $suppressoutput = false)
 		{
+			$outputopts = false;
 			if (!count($args["params"]) && $noparamsoutput != "")
 			{
 				echo "\n" . $noparamsoutput . "\n";
 
 				$suppressoutput = false;
+				$outputopts = true;
 			}
 
-			if (!$suppressoutput)  echo $question . ($default !== false ? " [" . $default . "]" : "") . ":  ";
+			do
+			{
+				if (!$suppressoutput)  echo $question . ($default !== false ? " [" . $default . "]" : "") . ":  ";
 
-			if (count($args["params"]))
-			{
-				$line = array_shift($args["params"]);
-				if ($line === "")  $line = $default;
-				if (!$suppressoutput)  echo $line . "\n";
-			}
-			else if (function_exists("readline") && function_exists("readline_add_history"))
-			{
-				$line = trim(readline());
-				if ($line === "")  $line = $default;
-				if ($line !== "")  readline_add_history($line);
-			}
-			else
-			{
-				$line = fgets(STDIN);
-				$line = trim($line);
-				if ($line === "")  $line = $default;
-			}
+				if (count($args["params"]))
+				{
+					$line = array_shift($args["params"]);
+					if ($line === "")  $line = $default;
+					if (!$suppressoutput)  echo $line . "\n";
+				}
+				else if (function_exists("readline") && function_exists("readline_add_history"))
+				{
+					$line = trim(readline());
+					if ($line === "")  $line = $default;
+					if ($line !== "")  readline_add_history($line);
+				}
+				else
+				{
+					$line = fgets(STDIN);
+					$line = trim($line);
+					if ($line === "")  $line = $default;
+				}
+
+				if ($line === false)
+				{
+					echo "Please enter a value.\n";
+
+					if (!$outputopts && !count($args["params"]) && $noparamsoutput != "")
+					{
+						echo "\n" . $noparamsoutput . "\n";
+
+						$outputopts = true;
+					}
+
+					$suppressoutput = false;
+				}
+			} while ($line === false);
 
 			return $line;
 		}
