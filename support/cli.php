@@ -222,7 +222,8 @@
 
 			foreach ($allowedoptions as $key => $val)
 			{
-				$noparamsoutput .= "  " . $key . ":" . str_repeat(" ", $size - strlen($key)) . "  " . $val . "\n";
+				$newtab = str_repeat(" ", 2 + $size + 3);
+				$noparamsoutput .= "  " . $key . ":" . str_repeat(" ", $size - strlen($key)) . "  " . str_replace("\n\t", "\n" . $newtab, $val) . "\n";
 			}
 
 			$noparamsoutput .= "\n";
