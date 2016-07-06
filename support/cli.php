@@ -163,7 +163,7 @@
 			$outputopts = false;
 			if (!count($args["params"]) && $noparamsoutput != "")
 			{
-				echo "\n" . $noparamsoutput . "\n";
+				echo "\n" . rtrim($noparamsoutput) . "\n\n";
 
 				$suppressoutput = false;
 				$outputopts = true;
@@ -251,11 +251,11 @@
 		}
 
 		// Obtains Yes/No style input.
-		public static function GetYesNoUserInputWithArgs(&$args, $question, $default, $suppressoutput = false)
+		public static function GetYesNoUserInputWithArgs(&$args, $question, $default, $noparamsoutput = "", $suppressoutput = false)
 		{
 			$default = (substr(strtoupper(trim($default)), 0, 1) === "Y" ? "Y" : "N");
 
-			$result = self::GetUserInputWithArgs($args, $question, $default, $suppressoutput);
+			$result = self::GetUserInputWithArgs($args, $question, $default, $noparamsoutput, $suppressoutput);
 			$result = (substr(strtoupper(trim($result)), 0, 1) === "Y");
 
 			return $result;
