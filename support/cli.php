@@ -274,6 +274,7 @@
 				$result = self::GetUserInputWithArgs($args, $prefix, $question, $default, $noparamsoutput, $suppressoutput);
 				if (is_array($multipleuntil) && $multipleuntil["exit"] === $result)  break;
 				$result2 = false;
+				if (!count($allowedoptions))  break;
 				foreach ($allowedoptions as $key => $val)
 				{
 					if (!strcasecmp($key, $result) || !strcasecmp($val, $result))  $result2 = $key;
