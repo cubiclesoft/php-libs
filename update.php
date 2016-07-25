@@ -48,6 +48,7 @@
 
 	// CA certificates.
 	copy($srcpath . "/ultimate-web-scraper/support/cacert.pem", $destpath . "/cacert.pem");
+	copy($srcpath . "/digitalocean/support/digitalocean_ca.pem", $destpath . "/digitalocean_ca.pem");
 
 	// Generate README.
 	GenerateReadme($rootpath . "/readme_src/classes.json", $rootpath . "/readme_src/README.md", $rootpath . "/README.md", "", $files, "support/", $srcpath);

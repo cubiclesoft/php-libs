@@ -42,6 +42,7 @@ Included and supported:
 
 Other:
 
+Class not included.  Possible bug.  * DigitalOcean - A complete SDK for interacting with all DigitalOcean APIs.
 * CSDB_PDO_Statement - Internal or undocumented class.  (support/db.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
 * simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
@@ -52,6 +53,7 @@ Sources
 -------
 
 * https://github.com/cubiclesoft/csdb
+* https://github.com/cubiclesoft/digitalocean
 * https://github.com/cubiclesoft/php-csprng
 * https://github.com/cubiclesoft/php-misc
 * https://github.com/cubiclesoft/ultimate-email
