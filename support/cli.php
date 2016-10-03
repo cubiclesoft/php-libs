@@ -313,12 +313,58 @@
 			return $result;
 		}
 
+		public static function GetHexDump($data)
+		{
+			$result = "";
+
+			$x = 0;
+			$y = strlen($data);
+			if ($y <= 256)  $padwidth = 2;
+			else if ($y <= 65536)  $padwidth = 4;
+			else if ($y <= 16777216)  $padwidth = 6;
+			else  $padwidth = 8;
+
+			$pad = str_repeat(" ", $padwidth);
+
+			$data2 = str_split(strtoupper(bin2hex($data)), 32);
+			foreach ($data2 as $line)
+			{
+				$result .= sprintf("%0" . $padwidth . "X", $x) . " | ";
+
+				$line = str_split($line, 2);
+				array_splice($line, 8, 0, "");
+				$result .= implode(" ", $line) . "\n";
+
+				$result .= $pad . " |";
+				$y2 = $x + 16;
+				for ($x2 = 0; $x2 < 16 && $x < $y; $x2++)
+				{
+					$result .= " ";
+					if ($x2 === 8)  $result .= " ";
+
+					$tempchr = ord($data{$x});
+					if ($tempchr === 0x09)  $result .= "\\t";
+					else if ($tempchr === 0x0D)  $result .= "\\r";
+					else if ($tempchr === 0x0A)  $result .= "\\n";
+					else if ($tempchr === 0x00)  $result .= "\\0";
+					else if ($tempchr < 32 || $tempchr > 126)  $result .= "  ";
+					else  $result .= " " . $data{$x};
+
+					$x++;
+				}
+
+				$result .= "\n";
+			}
+
+			return $result;
+		}
+
 		// Tracks messages for a command-line interface app.
 		private static $messages = array();
 
 		public static function LogMessage($msg, $data = null)
 		{
-			if (isset($data))  $msg .= "\n\t" . trim(str_replace("\n", "\n\t", json_encode($data, JSON_PRETTY_PRINT)));
+			if (isset($data))  $msg .= "\n\t" . trim(str_replace("\n", "\n\t", json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)));
 
 			self::$messages[] = $msg;
 
