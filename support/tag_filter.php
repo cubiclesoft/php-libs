@@ -4,7 +4,7 @@
 
 	class TagFilterStream
 	{
-		protected $lastcontent, $final, $options, $stack;
+		protected $lastcontent, $lastresult, $final, $options, $stack;
 
 		public function __construct($options = array())
 		{
@@ -27,6 +27,7 @@
 			if (!isset($options["lowercase_attrs"]))  $options["lowercase_attrs"] = true;
 
 			$this->lastcontent = "";
+			$this->lastresult = "";
 			$this->final = false;
 			$this->options = $options;
 			$this->stack = array();
@@ -36,7 +37,8 @@
 		{
 			if ($this->lastcontent !== "")  $content = $this->lastcontent . $content;
 
-			$result = "";
+			$result = $this->lastresult;
+			$this->lastresult = "";
 			$tag = false;
 			$a = ord("A");
 			$a2 = ord("a");
@@ -469,6 +471,8 @@
 					if ($cx >= $cy && !$this->final)
 					{
 						$this->lastcontent = substr($content, $firstcx);
+						$this->lastresult = $result;
+						$result = "";
 
 						break;
 					}
@@ -547,7 +551,8 @@
 										if (isset($this->options["tag_callback"]) && is_callable($this->options["tag_callback"]))  $funcresult = call_user_func_array($this->options["tag_callback"], array($this->stack, &$result, false, "/" . $this->stack[0]["tag_name"], &$attrs, $this->options));
 										else  $funcresult = array();
 
-										if (!isset($funcresult["keep_tag"]))  $funcresult["keep_tag"] = true;
+										// Force close tag to be kept if the stream already output the open tag.
+										if (!isset($funcresult["keep_tag"]) || ($info["close_tag"] && $info["open_tag"] == ""))  $funcresult["keep_tag"] = true;
 
 										$info = array_shift($this->stack);
 
@@ -607,7 +612,8 @@
 					if (isset($this->options["tag_callback"]) && is_callable($this->options["tag_callback"]))  $funcresult = call_user_func_array($this->options["tag_callback"], array($this->stack, &$result, false, "/" . $this->stack[0]["tag_name"], &$attrs, $this->options));
 					else  $funcresult = array();
 
-					if (!isset($funcresult["keep_tag"]))  $funcresult["keep_tag"] = true;
+					// Force close tag to be kept if the stream already output the open tag.
+					if (!isset($funcresult["keep_tag"]) || ($info["close_tag"] && $info["open_tag"] == ""))  $funcresult["keep_tag"] = true;
 
 					$info = array_shift($this->stack);
 
@@ -622,6 +628,38 @@
 		public function Finalize()
 		{
 			$this->final = true;
+		}
+
+		// To cleanly figure out how far in to flush output, call GetStack(true), use TagFilter::GetParentPos(), and call GetResult().
+		public function GetStack($invert = false)
+		{
+			return ($invert ? array_reverse($this->stack) : $this->stack);
+		}
+
+		// Returns the result so far up to the specified stack position and flushes the stored output to keep RAM usage low.
+		// NOTE:  Callback functions returning 'keep_tag' of false for the closing tag won't work for tags that were already output using this function.
+		public function GetResult($invertedstackpos)
+		{
+			$y = count($this->stack);
+			$pos = $y - $invertedstackpos - 1;
+			if ($pos < 0)  $pos = 0;
+
+			$result = "";
+			for ($x = $y - 1; $x >= $pos; $x--)
+			{
+				$result .= $this->stack[$x]["result"] . $this->stack[$x]["open_tag"];
+
+				$this->stack[$x]["result"] = "";
+				$this->stack[$x]["open_tag"] = "";
+			}
+
+			if (!$pos)
+			{
+				$result .= $this->lastresult;
+				$this->lastresult = "";
+			}
+
+			return $result;
 		}
 
 		protected static function UTF8Chr($num)
@@ -757,6 +795,99 @@
 			while (strpos($result, "\n\n\n") !== false)  $result = str_replace("\n\n\n", "\n\n", $result);
 
 			return $result;
+		}
+
+		public static function HTMLPurifyTagCallback($stack, &$content, $open, $tagname, &$attrs, $options)
+		{
+			if ($open)
+			{
+				if ($tagname === "script")  return array("keep_tag" => false, "keep_interior" => false);
+				if ($tagname === "style")  return array("keep_tag" => false, "keep_interior" => false);
+
+				if (isset($attrs["src"]) && substr($attrs["src"], 0, 11) === "javascript:")  return array("keep_tag" => false, "keep_interior" => false);
+				if (isset($attrs["href"]) && substr($attrs["href"], 0, 11) === "javascript:")  return array("keep_tag" => false);
+
+				if (!isset($options["htmlpurify"]["allowed_tags"][$tagname]))  return array("keep_tag" => false);
+
+				if (!isset($options["htmlpurify"]["allowed_attrs"][$tagname]))  $attrs = array();
+				else
+				{
+					// For classes, "class" needs to be specified as an allowed attribute.
+					foreach ($attrs as $attr => $val)
+					{
+						if (!isset($options["htmlpurify"]["allowed_attrs"][$tagname][$attr]))  unset($attrs[$attr]);
+					}
+				}
+
+				if (isset($options["htmlpurify"]["required_attrs"][$tagname]))
+				{
+					foreach ($options["htmlpurify"]["required_attrs"][$tagname] as $attr => $val)
+					{
+						if (!isset($attrs[$attr]))  return array("keep_tag" => false);
+					}
+				}
+
+				if (isset($attrs["class"]))
+				{
+					if (!isset($options["htmlpurify"]["allowed_classes"][$tagname]))  unset($attrs["class"]);
+					else
+					{
+						foreach ($attrs["class"] as $class)
+						{
+							if (!isset($options["htmlpurify"]["allowed_classes"][$tagname][$class]))  unset($attrs["class"][$class]);
+						}
+
+						if (!count($attrs["class"]))  unset($attrs["class"]);
+					}
+				}
+			}
+			else
+			{
+				if (isset($options["htmlpurify"]["remove_empty"][substr($tagname, 1)]) && trim($content) === "")  return array("keep_tag" => false);
+			}
+
+			return array();
+		}
+
+		private static function Internal_NormalizeHTMLPurifyOptions($value)
+		{
+			if (is_string($value))
+			{
+				$opts = explode(",", $value);
+				$value = array();
+				foreach ($opts as $opt)
+				{
+					$opt = (string)trim($opt);
+					if ($opt !== "")  $value[$opt] = true;
+				}
+			}
+
+			return $value;
+		}
+
+		public static function NormalizeHTMLPurifyOptions($purifyopts)
+		{
+			if (!isset($purifyopts["allowed_tags"]))  $purifyopts["allowed_tags"] = array();
+			if (!isset($purifyopts["allowed_attrs"]))  $purifyopts["allowed_attrs"] = array();
+			if (!isset($purifyopts["required_attrs"]))  $purifyopts["required_attrs"] = array();
+			if (!isset($purifyopts["allowed_classes"]))  $purifyopts["allowed_classes"] = array();
+			if (!isset($purifyopts["remove_empty"]))  $purifyopts["remove_empty"] = array();
+
+			$purifyopts["allowed_tags"] = self::Internal_NormalizeHTMLPurifyOptions($purifyopts["allowed_tags"]);
+			foreach ($purifyopts["allowed_attrs"] as $key => $val)  $purifyopts["allowed_attrs"][$key] = self::Internal_NormalizeHTMLPurifyOptions($val);
+			foreach ($purifyopts["required_attrs"] as $key => $val)  $purifyopts["required_attrs"][$key] = self::Internal_NormalizeHTMLPurifyOptions($val);
+			foreach ($purifyopts["allowed_classes"] as $key => $val)  $purifyopts["allowed_classes"][$key] = self::Internal_NormalizeHTMLPurifyOptions($val);
+			$purifyopts["remove_empty"] = self::Internal_NormalizeHTMLPurifyOptions($purifyopts["remove_empty"]);
+
+			return $purifyopts;
+		}
+
+		public static function HTMLPurify($content, $htmloptions, $purifyopts)
+		{
+			$htmloptions["tag_callback"] = "TagFilter::HTMLPurifyTagCallback";
+			$htmloptions["htmlpurify"] = self::NormalizeHTMLPurifyOptions($purifyopts);
+
+			return self::Run($content, $htmloptions);
 		}
 
 		public static function GetParentPos($stack, $tagname, $start = 0, $attrs = array())
