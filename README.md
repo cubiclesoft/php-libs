@@ -46,6 +46,9 @@ Other:
 * CSDB_PDO_Statement - Internal or undocumented class.  (support/db.php)
 * simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
+* TagFilterNode - Internal or undocumented class.  (support/tag_filter.php)
+* TagFilterNodeIterator - Internal or undocumented class.  (support/tag_filter.php)
+* TagFilterNodes - Internal or undocumented class.  (support/tag_filter.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
 * WebServer_Client - Internal or undocumented class.  (support/web_server.php)
 
