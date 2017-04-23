@@ -201,28 +201,29 @@
 
 			do
 			{
-				if (!$suppressoutput)  echo $question . ($default !== false ? " [" . $default . "]" : "") . ":  ";
+				$prompt = ($suppressoutput ? "" : $question . ($default !== false ? " [" . $default . "]" : "") . ":  ");
 
 				if ($prefix !== false && isset($args["userinput"][$prefix]) && count($args["userinput"][$prefix]))
 				{
 					$line = array_shift($args["userinput"][$prefix]);
 					if ($line === "")  $line = $default;
-					if (!$suppressoutput)  echo $line . "\n";
+					if (!$suppressoutput)  echo $prompt . $line . "\n";
 				}
 				else if (count($args["params"]))
 				{
 					$line = array_shift($args["params"]);
 					if ($line === "")  $line = $default;
-					if (!$suppressoutput)  echo $line . "\n";
+					if (!$suppressoutput)  echo $prompt . $line . "\n";
 				}
-				else if (function_exists("readline") && function_exists("readline_add_history"))
+				else if (strtoupper(substr(php_uname("s"), 0, 3)) != "WIN" && function_exists("readline") && function_exists("readline_add_history"))
 				{
-					$line = trim(readline());
+					$line = trim(readline($prompt));
 					if ($line === "")  $line = $default;
-					if ($line !== "")  readline_add_history($line);
+					if ($line !== false && $line !== "")  readline_add_history($line);
 				}
 				else
 				{
+					echo $prompt;
 					$line = fgets(STDIN);
 					$line = trim($line);
 					if ($line === "")  $line = $default;
@@ -406,6 +407,28 @@
 		public static function ResetLogMessages()
 		{
 			self::$messages = array();
+		}
+
+
+		private static $timerinfo = array();
+
+		public static function StartTimer()
+		{
+			$ts = microtime(true);
+
+			self::$timerinfo = array(
+				"start" => $ts,
+				"diff" => $ts
+			);
+		}
+
+		public static function DisplayTimer($msg)
+		{
+			$ts = microtime(true);
+			$diff = $ts - self::$timerinfo["diff"];
+			self::$timerinfo["diff"] = $ts;
+
+			echo $msg . " (Diff:  " . sprintf("%.2f", $diff) . ", Total:  " . sprintf("%.2f", $ts - self::$timerinfo["start"]) . ")\n";
 		}
 	}
 ?>
