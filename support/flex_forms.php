@@ -11,6 +11,7 @@
 		{
 			$this->state = array(
 				"formnum" => 0,
+				"formidbase" => "ff_form_",
 				"formtables" => true,
 				"formwidths" => true,
 				"autofocused" => false,
@@ -313,8 +314,9 @@
 			if (isset($options["submit"]) || (isset($options["useform"]) && $options["useform"]))
 			{
 				$this->state["formnum"]++;
+				$this->state["formid"] = $this->state["formidbase"] . $this->state["formnum"];
 ?>
-		<form id="form_<?php echo $this->state["formnum"]; ?>"<?php if (isset($options["formmode"]) && $options["formmode"] === "get")  { ?> method="get"<?php } else { ?> method="post" enctype="multipart/form-data"<?php } ?> action="<?php echo htmlspecialchars($this->state["action"]); ?>">
+		<form id="<?php echo $this->state["formid"]; ?>"<?php if (isset($options["formmode"]) && $options["formmode"] === "get")  { ?> method="get"<?php } else { ?> method="post" enctype="multipart/form-data"<?php } ?> action="<?php echo htmlspecialchars($this->state["action"]); ?>">
 <?php
 
 				$extra = array();
