@@ -41,7 +41,9 @@
 					}
 					else if ($currchr == "\"" || $currchr == "'")
 					{
-						$inside = ($inside === false ? $currchr : false);
+						if ($inside === false)  $inside = $currchr;
+						else if ($inside === $currchr)  $inside = false;
+						else  $currarg .= $currchr;
 					}
 					else if ($currchr == "\\" && $x < $y - 1)
 					{
