@@ -76,7 +76,7 @@
 		// Allows a very limited number of characters through.
 		public static function FilenameSafe($filename)
 		{
-			return preg_replace('/[_]+/', "_", preg_replace('/[^A-Za-z0-9_.\-]/', "_", $filename));
+			return preg_replace('/\s+/', "-", trim(trim(preg_replace('/[^A-Za-z0-9_.\-]/', " ", $filename), ".")));
 		}
 
 		public static function ReplaceNewlines($replacewith, $data)
