@@ -577,7 +577,7 @@
 					if (!$this->state["responsive"] || !isset($field["width"]))  echo "<td>";
 					else
 					{
-						echo "<td width=\"" . htmlspecialchars($field["width"]) . "\">";
+						echo "<td style=\"width: " . htmlspecialchars($field["width"]) . ";\">";
 
 						$this->state["insiderowwidth"] = true;
 					}
