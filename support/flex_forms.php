@@ -844,7 +844,7 @@
 										if (is_callable($callback))  call_user_func_array($callback, array(&$this->state, $num, &$field, $idbase, "body", $rownum, &$trattrs, &$colattrs2, &$row));
 									}
 
-									if (count($row) < count($colattrs2))  $colattrs2[count($colattrs2) - 1]["colspan"] = (count($colattrs2) - count($row) + 1);
+									if (count($row) < count($colattrs2))  $colattrs2[count($row) - 1]["colspan"] = (count($colattrs2) - count($row) + 1);
 ?>
 					<tr<?php foreach ($trattrs as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; ?>>
 <?php
