@@ -220,6 +220,87 @@
 			}
 		}
 
+		// Copy included for class self-containment.
+		// Makes an input filename safe for use.
+		// Allows a very limited number of characters through.
+		public static function FilenameSafe($filename)
+		{
+			return preg_replace('/\s+/', "-", trim(trim(preg_replace('/[^A-Za-z0-9_.\-]/', " ", $filename), ".")));
+		}
+
+		public static function NormalizeFiles($key)
+		{
+			$result = array();
+			if (isset($_FILES) && is_array($_FILES) && isset($_FILES[$key]) && is_array($_FILES[$key]))
+			{
+				$currfiles = $_FILES[$key];
+
+				if (isset($currfiles["name"]) && isset($currfiles["type"]) && isset($currfiles["tmp_name"]) && isset($currfiles["error"]) && isset($currfiles["size"]))
+				{
+					if (is_string($currfiles["name"]))
+					{
+						$currfiles["name"] = array($currfiles["name"]);
+						$currfiles["type"] = array($currfiles["type"]);
+						$currfiles["tmp_name"] = array($currfiles["tmp_name"]);
+						$currfiles["error"] = array($currfiles["error"]);
+						$currfiles["size"] = array($currfiles["size"]);
+					}
+
+					$y = count($currfiles["name"]);
+					for ($x = 0; $x < $y; $x++)
+					{
+						if ($currfiles["error"][$x] != 0)
+						{
+							switch ($currfiles["error"][$x])
+							{
+								case 1:  $msg = "The uploaded file exceeds the 'upload_max_filesize' directive in 'php.ini'.";  $code = "upload_err_ini_size";  break;
+								case 2:  $msg = "The uploaded file exceeds the 'MAX_FILE_SIZE' directive that was specified in the submitted form.";  $code = "upload_err_form_size";  break;
+								case 3:  $msg = "The uploaded file was only partially uploaded.";  $code = "upload_err_partial";  break;
+								case 4:  $msg = "No file was uploaded.";  $code = "upload_err_no_file";  break;
+								case 6:  $msg = "The configured temporary folder on the server is missing.";  $code = "upload_err_no_tmp_dir";  break;
+								case 7:  $msg = "Unable to write the temporary file to disk.  The server is out of disk space, incorrectly configured, or experiencing hardware issues.";  $code = "upload_err_cant_write";  break;
+								case 8:  $msg = "A PHP extension stopped the upload.";  $code = "upload_err_extension";  break;
+								default:  $msg = "An unknown error occurred.";  $code = "upload_err_unknown";  break;
+							}
+
+							$entry = array(
+								"success" => false,
+								"error" => self::FFTranslate($msg),
+								"errorcode" => $code
+							);
+						}
+						else if (!is_uploaded_file($currfiles["tmp_name"][$x]))
+						{
+							$entry = array(
+								"success" => false,
+								"error" => self::FFTranslate("The specified input filename was not uploaded to this server."),
+								"errorcode" => "invalid_input_filename"
+							);
+						}
+						else
+						{
+							$currfiles["name"][$x] = self::FilenameSafe($currfiles["name"][$x]);
+							$pos = strrpos($currfiles["name"][$x], ".");
+							$fileext = ($pos !== false ? (string)substr($currfiles["name"][$x], $pos + 1) : "");
+
+							$entry = array(
+								"success" => true,
+								"file" => $currfiles["tmp_name"][$x],
+								"name" => $currfiles["name"][$x],
+								"ext" => $fileext,
+								"type" => $currfiles["type"][$x],
+								"size" => $currfiles["size"][$x]
+							);
+						}
+
+						$result[] = $entry;
+					}
+				}
+			}
+
+			return $result;
+		}
+
 		public static function GetValue($key, $default)
 		{
 			return (isset($_REQUEST[$key]) ? $_REQUEST[$key] : $default);
@@ -332,6 +413,8 @@
 				{
 					foreach ($options["hidden"] as $name => $value)
 					{
+						$this->state["hidden"][(string)$name] = (string)$value;
+
 ?>
 		<input type="hidden" name="<?php echo htmlspecialchars($name); ?>" value="<?php echo htmlspecialchars($value); ?>" />
 <?php
@@ -340,9 +423,12 @@
 
 					if (isset($options["nonce"]))
 					{
+						$this->state["hidden"]["sec_extra"] = implode(",", array_keys($extra));
+						$this->state["hidden"]["sec_t"] = $this->CreateSecurityToken($options["hidden"][$options["nonce"]], $extra);
+
 ?>
-		<input type="hidden" name="sec_extra" value="<?php echo htmlspecialchars(implode(",", array_keys($extra))); ?>" />
-		<input type="hidden" name="sec_t" value="<?php echo htmlspecialchars($this->CreateSecurityToken($options["hidden"][$options["nonce"]], $extra)); ?>" />
+		<input type="hidden" name="sec_extra" value="<?php echo htmlspecialchars($this->state["hidden"]["sec_extra"]); ?>" />
+		<input type="hidden" name="sec_t" value="<?php echo htmlspecialchars($this->state["hidden"]["sec_t"]); ?>" />
 <?php
 					}
 				}
@@ -499,6 +585,7 @@
 		{
 			if (!isset(self::$formhandlers) || !is_array(self::$formhandlers))  self::$formhandlers = array("init" => array(), "field_string" => array(), "field_type" => array(), "table_row" => array(), "cleanup" => array(), "finalize" => array());
 
+			$this->state["hidden"] = array();
 			$this->state["insiderow"] = false;
 			$this->state["firstitem"] = false;
 
@@ -942,7 +1029,7 @@
 					{
 ?>
 			<div class="formitemdata">
-				<div class="textitemwrap"><input class="text" type="file" id="<?php echo htmlspecialchars($id); ?>" name="<?php echo htmlspecialchars($field["name"]) . (isset($field["multiple"]) && $field["multiple"] === true ? "[]" : ""); ?>"<?php if (isset($field["multiple"]) && $field["multiple"] === true)  echo " multiple";?><?php if ($this->state["autofocused"] === $id)  echo " autofocus"; ?> /></div>
+				<div class="textitemwrap"><input class="text" type="file" id="<?php echo htmlspecialchars($id); ?>" name="<?php echo htmlspecialchars($field["name"]) . (isset($field["multiple"]) && $field["multiple"] === true ? "[]" : ""); ?>"<?php if (isset($field["multiple"]) && $field["multiple"] === true)  echo " multiple";?><?php if (isset($field["accept"]) && is_string($field["accept"]))  echo " accept=\"" . htmlspecialchars($field["accept"]) . "\"";?><?php if ($this->state["autofocused"] === $id)  echo " autofocus"; ?> /></div>
 			</div>
 <?php
 						break;
