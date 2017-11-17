@@ -862,7 +862,7 @@
 						if (isset($field["width"]))  $stylewidth = " style=\"" . ($this->state["responsive"] ? "max-" : "") . "width: " . htmlspecialchars($field["width"]) . ";\"";
 						else  $stylewidth = "";
 
-						if (isset($field["height"]) && isset($field["multiple"]) && $field["multiple"] === true)  $styleheight = " style=\"height: " . htmlspecialchars($field["height"]) . ";\"";
+						if (isset($field["height"]))  $styleheight = " style=\"height: " . htmlspecialchars($field["height"]) . ";\"";
 						else  $styleheight = "";
 
 ?>
