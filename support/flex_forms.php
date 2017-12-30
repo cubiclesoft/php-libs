@@ -1191,6 +1191,19 @@ window.FlexForms = window.FlexForms || {
 
 	ready: false,
 
+	GetObjectFromPath: function(path) {
+		var obj = window;
+		path = path.split('.');
+		for (var x = 0; x < path.length; x++)
+		{
+			if (obj[path[x]] === undefined)  return;
+
+			obj = obj[path[x]];
+		}
+
+		return obj;
+	},
+
 	ProcessJSQueue: function() {
 		var $this = this;
 
@@ -1201,7 +1214,7 @@ window.FlexForms = window.FlexForms || {
 			{
 				if ($this.jsqueue[name].loading === false && ($this.jsqueue[name].dependency === false || $this.jsqueue[$this.jsqueue[name].dependency] === undefined))
 				{
-					if ($this.jsqueue[name].detect !== undefined && $this.jsqueue[name].detect())  delete $this.jsqueue[name];
+					if ($this.jsqueue[name].detect !== undefined && $this.GetObjectFromPath($this.jsqueue[name].detect) !== undefined)  delete $this.jsqueue[name];
 					else if ($this.jsqueue[name].mode === "src")  $this.LoadJSQueueItem(name);
 					else if ($this.jsqueue[name].mode === "inline")
 					{
