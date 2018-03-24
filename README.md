@@ -50,6 +50,7 @@ Other:
 * CSDB_PDO_Statement - Internal or undocumented class.  (support/db.php)
 * simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
+* Request - Internal or undocumented class.  (support/request.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
 * WebServer_Client - Internal or undocumented class.  (support/web_server.php)
 
