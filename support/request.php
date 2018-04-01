@@ -106,5 +106,28 @@
 		{
 			return self::GetHost($protocol) . self::GetURLBase();
 		}
+
+		public static function PrependHost($url, $protocol = "")
+		{
+			// Handle protocol-only.
+			if (strncmp($url, "//", 2) == 0)
+			{
+				$host = self::GetHost($protocol);
+				$pos = strpos($host, ":");
+				if ($pos === false)  return $url;
+
+				return substr($host, 0, $pos + 1) . $url;
+			}
+
+			if (strpos($url, ":") !== false)  return $url;
+
+			// Handle relative paths.
+			if ($url === "" || $url{0} !== "/")  return rtrim(self::GetFullURLBase($protocol), "/") . "/" . $url;
+
+			// Handle '/path/'.
+			$host = self::GetHost($protocol);
+
+			return $host . $url;
+		}
 	}
 ?>
