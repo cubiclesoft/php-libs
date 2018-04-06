@@ -124,7 +124,7 @@
 			// Handle relative paths.
 			if ($url === "" || $url{0} !== "/")  return rtrim(self::GetFullURLBase($protocol), "/") . "/" . $url;
 
-			// Handle '/path/'.
+			// Handle absolute paths.
 			$host = self::GetHost($protocol);
 
 			return $host . $url;

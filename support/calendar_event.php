@@ -1,6 +1,6 @@
 <?php
 	// Calendar event class.  Supports all types of schedules using a cron-like format.
-	// (C) 2016 CubicleSoft.  All Rights Reserved.
+	// (C) 2018 CubicleSoft.  All Rights Reserved.
 
 	class CalendarEvent
 	{
@@ -1009,20 +1009,19 @@
 
 		private function ParseHour($hour)
 		{
-			$hour = strtolower($hour);
-			$hour = str_replace(array("a.m.", "p.m."), array("am", "pm"), $hour);
+			if (stripos($hour, "a") !== false)  $ampm = "a";
+			else if (stripos($hour, "p") !== false)  $ampm = "p";
+			else  $ampm = false;
 
-			if (strpos($hour, "am") !== false)
+			$hour = (int)trim(preg_replace('/[^0-9]/', " ", $hour));
+
+			if ($ampm === "a")
 			{
-				$hour = (int)trim(str_replace("am", "", $hour));
-
 				if ($hour < 1 || $hour > 12)  return -1;
 				else if ($hour == 12)  $hour = 0;
 			}
-			else if (strpos($hour, "pm") !== false)
+			else if ($ampm === "p")
 			{
-				$hour = (int)trim(str_replace("pm", "", $hour));
-
 				if ($hour < 1 || $hour > 12)  return -1;
 				else if ($hour != 12)  $hour += 12;
 			}
