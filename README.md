@@ -3,6 +3,8 @@ CubicleSoft PHP Libraries
 
 A single repository containing all CubicleSoft PHP libraries.  Fully automated nightly updates.  MIT or LGPL, your choice.
 
+[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/)
+
 Classes
 -------
 
@@ -11,11 +13,11 @@ Included and supported:
 * CalendarEvent - Powerful scheduling class.  Feed in a cron line, get back the next timestamp of when something should trigger.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/calendar_event.md)  (support/calendar_event.php)
 * CLI - Static functions in a class to extract command-line options, parse user input on the command-line, and log messages to the console.  Do you really need a separate logging library?  I don't.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/cli.md)  (support/cli.php)
 * CRC32Stream - Calculates CRC32 checksums in a streaming format.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/crc32_stream.md)  (support/crc32_stream.php)
-* CSDB - Cross-database, cross-platform, lightweight base class for interfacing with databases.  Designed specifically for developing open source applications where the target database is unknown.  Write each SQL query one time and have all queries automagically work for all supported databases.  Complete with all the standard features you expect in a SQL injection free database class.  Uses PDO by default.  (support/db.php)
+* CSDB - Cross-database, cross-platform, lightweight base class for interfacing with databases.  Designed specifically for developing open source applications where the target database is unknown.  Write each SQL query one time and have all queries automagically work for all supported databases.  Complete with all the standard features you expect in a SQL injection free database class.  Uses PDO by default.  [Documentation](https://github.com/cubiclesoft/csdb)  (support/db.php)
 * CSDB_mysql - Full MySQL/Maria DB interface.  (support/db_mysql.php)
 * CSDB_mysql_lite - Lightweight MySQL/Maria DB interface.  (support/db_mysql_lite.php)
-* CSDB_oci - Full Oracle DB interface (needs work).  (support/db_oci.php)
-* CSDB_oci_lite - Lightweight Oracle DB interface (needs work).  (support/db_oci_lite.php)
+* CSDB_oci - Full Oracle DB interface (beta).  (support/db_oci.php)
+* CSDB_oci_lite - Lightweight Oracle DB interface (beta).  (support/db_oci_lite.php)
 * CSDB_pgsql - Full PostgreSQL interface.  (support/db_pgsql.php)
 * CSDB_pgsql_lite - Lightweight PostgreSQL interface.  (support/db_pgsql_lite.php)
 * CSDB_sqlite - Full SQLite interface.  (support/db_sqlite.php)
