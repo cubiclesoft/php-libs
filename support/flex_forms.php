@@ -502,7 +502,7 @@
 
 		public static function IsSSLRequest()
 		{
-			return ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on" || $_SERVER["HTTPS"] == "1")) || (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == "443") || (str_replace("\\", "/", strtolower(substr($_SERVER["REQUEST_URI"], 0, 8))) == "https://"));
+			return ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on" || $_SERVER["HTTPS"] == "1")) || (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == "443") || (isset($_SERVER["REQUEST_URI"]) && str_replace("\\", "/", strtolower(substr($_SERVER["REQUEST_URI"], 0, 8))) == "https://"));
 		}
 
 		// Returns 'http[s]://www.something.com[:port]' based on the current page request.
@@ -519,7 +519,7 @@
 
 			$url = "http" . ($ssl ? "s" : "") . "://";
 
-			$str = str_replace("\\", "/", $_SERVER["REQUEST_URI"]);
+			$str = (isset($_SERVER["REQUEST_URI"]) ? str_replace("\\", "/", $_SERVER["REQUEST_URI"]) : "/");
 			$pos = strpos($str, "?");
 			if ($pos !== false)  $str = substr($str, 0, $pos);
 			$str2 = strtolower($str);
@@ -561,11 +561,10 @@
 
 		public static function GetRequestURLBase()
 		{
-			$str = str_replace("\\", "/", $_SERVER["REQUEST_URI"]);
+			$str = (isset($_SERVER["REQUEST_URI"]) ? str_replace("\\", "/", $_SERVER["REQUEST_URI"]) : "/");
 			$pos = strpos($str, "?");
 			if ($pos !== false)  $str = substr($str, 0, $pos);
-			$str2 = strtolower($str);
-			if (substr($str2, 0, 7) == "http://" || substr($str2, 0, 8) == "https://")
+			if (strncasecmp($str, "http://", 7) == 0 || strncasecmp($str, "https://", 8) == 0)
 			{
 				$pos = strpos($str, "/", 8);
 				if ($pos === false)  $str = "/";
