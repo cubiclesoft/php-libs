@@ -78,6 +78,11 @@
 			$this->state["cssoutput"][$name] = true;
 		}
 
+		public function SetVersion($newversion)
+		{
+			$this->version = urlencode((string)$newversion);
+		}
+
 		public function SetSecretKey($secretkey)
 		{
 			$this->secretkey = (string)$secretkey;
@@ -86,11 +91,6 @@
 		public function SetTokenExtraInfo($extrainfo)
 		{
 			$this->extrainfo = (string)$extrainfo;
-		}
-
-		public function SetVersion($newversion)
-		{
-			$this->version = urlencode((string)$newversion);
 		}
 
 		public function CreateSecurityToken($action, $extra = "")
@@ -1117,11 +1117,11 @@
 <?php
 		}
 
-		protected function Finalize()
+		public function OutputFlexFormsJS($scripttag = true)
 		{
-			// Output FlexForms Javascript.  External dependencies are not allowed here.
+			if ($scripttag)  echo "<script type=\"text/javascript\">\n";
+
 ?>
-<script type="text/javascript">
 window.FlexForms = window.FlexForms || {
 	version: '<?php echo self::JSSafe($this->version); ?>',
 
@@ -1263,8 +1263,14 @@ window.FlexForms = window.FlexForms || {
 		}
 	}
 };
-</script>
 <?php
+			if ($scripttag)  echo "</script>\n";
+		}
+
+		protected function Finalize()
+		{
+			// Output FlexForms Javascript.  External dependencies are not allowed here.
+			$this->OutputFlexFormsJS(!$this->state["ajax"]);
 
 			// Queue up jQuery and jQuery UI.  Even though these are added last, they end up being output first.
 			$this->OutputJQuery(true);
