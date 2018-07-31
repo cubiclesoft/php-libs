@@ -1,6 +1,6 @@
 <?php
 	// Cryptographically Secure Pseudo-Random String Generator (CSPRSG) and CSPRNG.
-	// (C) 2017 CubicleSoft.  All Rights Reserved.
+	// (C) 2018 CubicleSoft.  All Rights Reserved.
 
 	class CSPRNG
 	{
