@@ -905,7 +905,7 @@
 							foreach ($field["cols"] as $num2 => $col)
 							{
 ?>
-						<th<?php foreach ($colattrs[$num2] as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; ?>><?php echo htmlspecialchars(self::FFTranslate($col)); ?></th>
+						<th<?php foreach ($colattrs[$num2] as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; ?>><?php echo (isset($field["htmlcols"]) && $field["htmlcols"] ? self::FFTranslate($col) : htmlspecialchars(self::FFTranslate($col))); ?></th>
 <?php
 							}
 ?>
@@ -1001,7 +1001,7 @@
 									foreach ($row as $col)
 									{
 ?>
-						<div<?php foreach ($headcolattrs as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; ?>><?php echo htmlspecialchars(self::FFTranslate(isset($field["cols"][$num2]) ? $field["cols"][$num2] : "")); ?></div>
+						<div<?php foreach ($headcolattrs as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; ?>><?php echo (isset($field["htmlcols"]) && $field["htmlcols"] ? self::FFTranslate(isset($field["cols"][$num2]) ? $field["cols"][$num2] : "") : htmlspecialchars(self::FFTranslate(isset($field["cols"][$num2]) ? $field["cols"][$num2] : ""))); ?></div>
 						<div<?php if (isset($colattrs2[$num2]))  { foreach ($colattrs2[$num2] as $key => $val)  echo " " . $key . "=\"" . htmlspecialchars($val) . "\""; } ?>><?php echo $col; ?></div>
 <?php
 										$num2++;
