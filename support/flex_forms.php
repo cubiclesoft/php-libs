@@ -404,7 +404,7 @@
 				$this->state["formnum"]++;
 				$this->state["formid"] = $this->state["formidbase"] . $this->state["formnum"];
 ?>
-		<form id="<?php echo $this->state["formid"]; ?>"<?php if (isset($options["formmode"]) && $options["formmode"] === "get")  { ?> method="get"<?php } else { ?> method="post" enctype="multipart/form-data"<?php } ?> action="<?php echo htmlspecialchars($this->state["action"]); ?>">
+		<form class="ff_form" id="<?php echo $this->state["formid"]; ?>"<?php if (isset($options["formmode"]) && $options["formmode"] === "get")  { ?> method="get"<?php } else { ?> method="post" enctype="multipart/form-data"<?php } ?> action="<?php echo htmlspecialchars($this->state["action"]); ?>">
 <?php
 
 				$extra = array();
@@ -628,7 +628,7 @@
 						$this->state["insiderow"] = true;
 						$this->state["insiderowwidth"] = false;
 ?>
-			<div class="fieldtablewrap<?php if ($this->state["firstitem"])  echo " firstitem"; ?>"><table class="rowwrap"><tr>
+			<div class="fieldtablewrap<?php if ($this->state["firstitem"])  echo " firstitem"; ?>"><table class="rowwrap"><tbody><tr>
 <?php
 						$this->state["firstitem"] = false;
 					}
@@ -638,7 +638,7 @@
 					if ($this->state["responsive"] && $this->state["insiderowwidth"])  echo "<td></td>";
 
 ?>
-			</tr></table></div>
+			</tr></tbody></table></div>
 <?php
 					$this->state["insiderow"] = false;
 				}
@@ -887,7 +887,7 @@
 						if ($this->state["formtables"])
 						{
 ?>
-				<table id="<?php echo htmlspecialchars($idbase); ?>"<?php if (isset($field["class"]))  echo " class=\"" . htmlspecialchars($field["class"]) . "\""; ?><?php if (isset($field["width"]))  echo " style=\"" . ($this->state["responsive"] ? "max-" : "") . "width: " . htmlspecialchars($field["width"]) . "\""; ?>>
+				<table id="<?php echo htmlspecialchars($idbase); ?>" class="formitemtable<?php if (isset($field["class"]))  echo " " . htmlspecialchars($field["class"]); ?>"<?php if (isset($field["width"]))  echo " style=\"" . ($this->state["responsive"] ? "max-" : "") . "width: " . htmlspecialchars($field["width"]) . "\""; ?>>
 					<thead>
 <?php
 							// Let form handlers process the columns.
