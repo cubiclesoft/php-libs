@@ -72,11 +72,11 @@ Other:
 * Crypt_AES - Internal or undocumented class.  (support/AES.php)
 * Crypt_Base - Internal or undocumented class.  (support/Base.php)
 * Crypt_Rijndael - Internal or undocumented class.  (support/Rijndael.php)
-* simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
 * ColorTools - Internal or undocumented class.  (support/color_tools.php)
 * XTerm - Internal or undocumented class.  (support/xterm.php)
 * EmailBuilder - Internal or undocumented class.  (support/email_builder.php)
+* simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
 * WebServer_Client - Internal or undocumented class.  (support/web_server.php)
 
