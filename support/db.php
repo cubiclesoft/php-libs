@@ -95,6 +95,11 @@
 			$this->transaction++;
 		}
 
+		public function NumTransactions()
+		{
+			return $this->transaction;
+		}
+
 		public function Commit()
 		{
 			$this->AssertPDOAvailable(true);
