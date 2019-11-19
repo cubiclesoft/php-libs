@@ -63,6 +63,8 @@ Included and supported:
 
 Other:
 
+Class not included.  Possible bug.  * ArrayUtils - Implements missing functions for associative arrays.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/array_utils.md)
+Class not included.  Possible bug.  * UTFUtils - Convert between various Unicode Transformation Formats (UTF-8, UTF-16, UTF-32).  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf_utils.md)
 * CSDB_PDO_Statement - Internal or undocumented class.  (support/db.php)
 * EFSS_FirstBlock - Internal or undocumented class.  (support/efss.php)
 * EFSS_DirEntry_DirFile - Internal or undocumented class.  (support/efss.php)
