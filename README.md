@@ -11,6 +11,7 @@ Classes
 Included and supported:
 
 * AppleICNS - Create and parse Apple icon (.icns) files.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/apple_icns.md)  (support/apple_icns.php)
+* ArrayUtils - Implements missing functions for associative arrays.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/array_utils.md)  (support/array_utils.php)
 * CalendarEvent - Powerful scheduling class.  Feed in a cron line, get back the next timestamp of when something should trigger.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/calendar_event.md)  (support/calendar_event.php)
 * CLI - Static functions in a class to extract command-line options, parse user input on the command-line, and log messages to the console.  Do you really need a separate logging library?  I don't.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/cli.md)  (support/cli.php)
 * ColorTools - Static functions in a class to convert RGB to other color spaces and calculate readable foreground text colors for any background color.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/color_tools.md)  (support/color_tools.php)
@@ -29,6 +30,7 @@ Included and supported:
 * DigitalOcean - A complete SDK for interacting with all DigitalOcean APIs.  (support/sdk_digitalocean.php)
 * DirHelper - Static functions in a class for simplifying common file system tasks regarding directories, including recursive copy, delete, and permissions changes when building installers, live demos, and testing tools.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/dir_helper.md)  (support/dir_helper.php)
 * EFSS - Creates hierarchical, encrypted, compressed data stores.  Encrypted File Storage System is a real, virtual, mountable block-based file system for PHP.  [Documentation](https://github.com/cubiclesoft/efss)  (support/efss.php)
+* EmailBuilder - Powerful class for constructing fancy HTML emails using arrays without having to worry about HTML tables.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/email_builder.md)  (support/email_builder.php)
 * EventManager - Register to listen for events whenever the application fires them.  Can be the basis of a plugin/module system.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/event_manager.md)  (support/event_manager.php)
 * FastCGI - Implements a FactCGI client.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/fastcgi.md)  (support/fastcgi.php)
 * FlexForms - Powerful class for building/generating HTML forms.  Highly extensible with XSRF and anti-bot defenses.  [Documentation](https://github.com/cubiclesoft/php-flexforms/blob/master/docs/flex_forms.md)  (support/flex_forms.php)
@@ -36,14 +38,14 @@ Included and supported:
 * HTTP - Baseline static functions in a class for performing all things HTTP.  Has powerful URL parsing tools (e.g. relative to absolute URL conversion).  Used primarily by WebBrowser.  Asynchronous capable.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/http.md)  (support/http.php)
 * IPAddr - Static functions in a class for processing IPv4 and IPv6 addresses into a uniform format.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/ipaddr.md)  (support/ipaddr.php)
 * LineDiff - Static functions in a class for generating line-by-line diffs.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/line_diff.md)  (support/line_diff.php)
-* MIMEParser - Parses MIME content of all forms.  Intended primarily for use with POP3.  (support/mime_parser.php)
+* MIMEParser - Parses MIME content of all forms.  Intended primarily for use with POP3.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/mime_parser.md)  (support/mime_parser.php)
 * MultiAsyncHelper - Not for the feint of heart.  This class simplifies management of mixing multiple non-blocking objects.  See the Ultimate Web Scraper toolkit test suite for example usage.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/multi_async_helper.md)  (support/multi_async_helper.php)
 * PHPMinifier - Static functions in a class for minifying PHP code while still generally maintaining readability.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/php_minifier.md)  (support/php_minifier.php)
-* POP3 - Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.  (support/pop3.php)
+* POP3 - Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/pop3.md)  (support/pop3.php)
 * ProcessHelper - Static functions in a class for starting and terminating non-blocking processes across all platforms.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/process_helper.md)  (support/process_helper.php)
 * ReadWriteLock - A very old class that implements a cross-platform, named read-write lock for very old versions of PHP.  Use the [PECL sync](http://php.net/manual/en/book.sync.php) extension instead.  [Documentation](https://github.com/cubiclesoft/efss/blob/master/docs/read_write_lock.md)  (support/read_write_lock.php)
 * Request - Static functions in a class for doing basic, common, but missing request initialization handling.  Common initialization routines for CubicleSoft applications.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/request.md)  (support/request.php)
-* SMTP - Powerful set of static functions in a class for sending e-mail.  Full RFC support.  (support/smtp.php)
+* SMTP - Powerful set of static functions in a class for sending e-mail.  Full RFC support.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/smtp.md)  (support/smtp.php)
 * Str - Static functions in a class for doing basic, common, but missing string manipulation.  Common initialization routines for CubicleSoft applications.  Some minor carryover from extremely old C++ libraries.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/str_basics.md)  (support/str_basics.php)
 * StringBitStream - Parse data stored in a bit stream such as Flash (SWF) files.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/bits.md)  (support/bits.php)
 * TagFilter - The world's most powerful tag filtering PHP class.  It can clean up the worst HTML (e.g. Word HTML) in a single pass or extract data (or both).  As a direct result, it is blistering fast.  Many, many times faster and smaller than everything else I've used.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md)  (support/tag_filter.php)
@@ -52,19 +54,21 @@ Included and supported:
 * TagFilterNodeIterator - Allows iteration over CSS3 query results from TagFilterNode::Find() using foreach.  Also has a Filter() function to further reduce results using additional CSS3 selectors.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md#tagfilternodeiterator-class)  (support/tag_filter.php)
 * TagFilterStream - Used by TagFilter but can be used separately for processing large HTML files in smaller chunks (aka a stream).  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md#tagfilterstream-class)  (support/tag_filter.php)
 * UTF8 - Flexible UTF-8 string manipulation static functions in a class.  CubicleSoft was doing Unicode and UTF-8 long before Unicode and UTF-8 were cool.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf8.md)  (support/utf8.php)
+* UTFUtils - Convert between various Unicode Transformation Formats (UTF-8, UTF-16, UTF-32).  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf_utils.md)  (support/utf_utils.php)
 * WebBrowser - Probably the most powerful state tracking system in pure PHP for web scraping.  Virtually indistiguishable from a real web browser and therefore extremely difficult to detect.  Has HTML form extraction and command-line shell interface capabilities.  I occasionally dream of adding a Javascript parsing engine to it.  Superior in every way to Guzzle when it comes to web scraping (Guzzle is an API consumer, not a web scraper - different domains).  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/web_browser.md)  (support/web_browser.php)
 * WebBrowserForm - Represents and manipulates a single extracted HTML form from a page.  Generates WebBrowser-compliant output for feeding back into WebBrowser for another request.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/web_browser.md#webbrowserform-class)  (support/web_browser.php)
 * WebMutex - A very old class that implements a cross-platform, named mutex for very old versions of PHP.  Use the [PECL sync](http://php.net/manual/en/book.sync.php) extension instead.  [Documentation](https://github.com/cubiclesoft/efss/blob/master/docs/web_mutex.md)  (support/web_mutex.php)
 * WebServer - It is what it says on the tin.  It's a web server.  In pure PHP.  Abuses the HTTP class to implement a rather scary and complete feature set that probably rivals Apache.  Isn't going to win any performance awards.  Is probably susceptible to DoS attacks due to multiple bugs in PHP.  Used by Cloud Storage Server and PHP App Server.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/web_server.md)  (support/web_server.php)
 * WebSocket - Implements a WebSocket client.  Probably not as robust as it could be on the async front but, unlike most WebSocket classes, this one allows the application to ignore those pesky control packets.  [Docuemtation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/websocket.md)  (support/websocket.php)
 * WebSocketServer - Move over Node.js and whatever else is out there.  A new WebSocket server is in town.  With limits on packet size because, well, WebSocket vulnerabilities.  Actually, you probably shouldn't use this in production environments either.  WebSocket is kind of a broken protocol.  The server exists to test the client because there aren't that many open servers out there.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/websocket_server.md)  (support/websocket_server.php)
+* WinICO - Create and parse Windows icon (.ico) and cursor (.cur) files.  [Documentation](https://github.com/cubiclesoft/php-winpefile/blob/master/docs/win_ico.md)  (support/win_ico.php)
+* WinPEFile - Extract information, modify, and create Windows Portable Executable files.  [Documentation](https://github.com/cubiclesoft/php-winpefile/blob/master/docs/win_pe_file.md)  (support/win_pe_file.php)
+* WinPEUtils - Advanced data extraction and manipulation of Windows Portable Executable files.  [Documentation](https://github.com/cubiclesoft/php-winpefile/blob/master/docs/win_pe_utils.md)  (support/win_pe_utils.php)
 * XTerm - Static functions in a class for emitting XTerm-compatible escape codes to alter terminal behavior.  Mostly for changing font styles and colors but also supports most escape codes with easier to comprehend functions.  Many features also work with the Command Prompt in Windows 10 and later.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/xterm.md)  (support/xterm.php)
 * simple_html_dom - Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  \[Shrugs\]  Obsoleted by TagFilter.  (support/simple_html_dom.php)
 
 Other:
 
-Class not included.  Possible bug.  * ArrayUtils - Implements missing functions for associative arrays.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/array_utils.md)
-Class not included.  Possible bug.  * UTFUtils - Convert between various Unicode Transformation Formats (UTF-8, UTF-16, UTF-32).  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf_utils.md)
 * CSDB_PDO_Statement - Internal or undocumented class.  (support/db.php)
 * EFSS_FirstBlock - Internal or undocumented class.  (support/efss.php)
 * EFSS_DirEntry_DirFile - Internal or undocumented class.  (support/efss.php)
@@ -80,7 +84,6 @@ Class not included.  Possible bug.  * UTFUtils - Convert between various Unicode
 * Crypt_Rijndael - Internal or undocumented class.  (support/Rijndael.php)
 * simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
-* EmailBuilder - Internal or undocumented class.  (support/email_builder.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
 * WebServer_Client - Internal or undocumented class.  (support/web_server.php)
 
@@ -93,5 +96,6 @@ Sources
 * https://github.com/cubiclesoft/php-csprng
 * https://github.com/cubiclesoft/php-flexforms
 * https://github.com/cubiclesoft/php-misc
+* https://github.com/cubiclesoft/php-winpefile
 * https://github.com/cubiclesoft/ultimate-email
 * https://github.com/cubiclesoft/ultimate-web-scraper
