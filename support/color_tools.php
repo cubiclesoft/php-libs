@@ -1,6 +1,6 @@
 <?php
 	// Color space tools.
-	// (C) 2019 CubicleSoft.  All Rights Reserved.
+	// (C) 2020 CubicleSoft.  All Rights Reserved.
 
 	class ColorTools
 	{
@@ -391,7 +391,7 @@
 		public static function ConvertFromHex($str)
 		{
 			$str = preg_replace('/[^0-9a-f]/', "", strtolower($str));
-			if (strlen($str) == 3)  $str = $str{0} . $str{0} . $str{1} . $str{1} . $str{2} . $str{2};
+			if (strlen($str) == 3)  $str = $str[0] . $str[0] . $str[1] . $str[1] . $str[2] . $str[2];
 			while (strlen($str) < 6)  $str .= "0";
 
 			return array("r" => hexdec(substr($str, 0, 2)), "g" => hexdec(substr($str, 2, 2)), "b" => hexdec(substr($str, 4, 2)));

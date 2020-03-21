@@ -1,6 +1,6 @@
 <?php
 	// Process helper functions.
-	// (C) 2019 CubicleSoft.  All Rights Reserved.
+	// (C) 2020 CubicleSoft.  All Rights Reserved.
 
 	class ProcessHelper
 	{
@@ -33,29 +33,29 @@
 			{
 				if ($state === "double")
 				{
-					if ($cmd{$x} === "\"")  $state = "normal";
+					if ($cmd[$x] === "\"")  $state = "normal";
 					else
 					{
-						if ($x + 2 < $y && $cmd{$x} === "\\" && $cmd{$x + 1} === "\\" && $cmd{$x + 1} === "\"")  $x++;
+						if ($x + 2 < $y && $cmd[$x] === "\\" && $cmd[$x + 1] === "\\" && $cmd[$x + 1] === "\"")  $x++;
 
-						$file .= $cmd{$x};
+						$file .= $cmd[$x];
 					}
 				}
 				else if ($state === "single")
 				{
-					if ($cmd{$x} === "'")  $state = "normal";
-					else  $file .= $cmd{$x};
+					if ($cmd[$x] === "'")  $state = "normal";
+					else  $file .= $cmd[$x];
 				}
 				else
 				{
-					if ($cmd{$x} === "\"")  $state = "double";
-					else if ($cmd{$x} === "'")  $state = "single";
-					else if ($cmd{$x} === " ")  break;
+					if ($cmd[$x] === "\"")  $state = "double";
+					else if ($cmd[$x] === "'")  $state = "single";
+					else if ($cmd[$x] === " ")  break;
 					else
 					{
-						if ($cmd{$x} === "\\")  $x++;
+						if ($cmd[$x] === "\\")  $x++;
 
-						if ($x < $y)  $file .= $cmd{$x};
+						if ($x < $y)  $file .= $cmd[$x];
 					}
 				}
 
@@ -616,6 +616,69 @@
 			return array("success" => true, "proc" => $proc, "stdinleft" => $stdindata, "stdout" => $stdoutdata, "stderr" => $stderrdata);
 		}
 
+		public static function FindProcessIDsByFilename($filename)
+		{
+			$os = php_uname("s");
+			$windows = (strtoupper(substr($os, 0, 3)) == "WIN");
+
+			if ($windows)
+			{
+				$filename = str_replace("/", "\\", $filename);
+				$fullpath = (strpos($filename, "\\") !== false);
+
+				if (($exefile = self::FindExecutable("wmic.exe")) !== false)
+				{
+					// Included with Windows XP Pro and later.
+					$cmd = escapeshellarg($exefile);
+					$cmd .= " process get ExecutablePath,ProcessId";
+
+					@exec($cmd, $lines);
+
+					$ids = array();
+					foreach ($lines as $line)
+					{
+						if (preg_match('/(\d+)$/', $line, $matches))
+						{
+							$line = rtrim(substr($line, 0, -strlen($matches[1])));
+							if (!$fullpath)  $line = substr($line, strrpos($line, "\\") + 1);
+
+							if (strcasecmp($line, $filename) == 0)  $ids[] = (int)$matches[1];
+						}
+					}
+
+					return array("success" => true, "ids" => $ids);
+				}
+			}
+			else
+			{
+				$filename = str_replace("\\", "/", $filename);
+				$fullpath = (strpos($filename, "/") !== false);
+
+				$ps = self::FindExecutable("ps", "/bin");
+
+				$cmd = escapeshellarg($ps) . " -ax -o pid";
+				@exec($cmd, $lines);
+
+				$ids = array();
+				foreach ($lines as $line)
+				{
+					if (preg_match('/^\s*?(\d+)\s*$/', $line, $matches))
+					{
+						$pid = (int)$matches[1];
+
+						$line = @readlink("/proc/" . $pid . "/exe");
+						if (!$fullpath)  $line = substr($line, strrpos($line, "/") + 1);
+
+						if ($line === $filename)  $ids[] = $pid;
+					}
+				}
+
+				return array("success" => true, "ids" => $ids);
+			}
+
+			return array("success" => false, "error" => self::PHTranslate("Expected platform process tool not found."), "errorcode" => "missing_platform_process_tool");
+		}
+
 		public static function TerminateProcess($id, $children = true, $force = true)
 		{
 			$id = (int)$id;
@@ -656,18 +719,17 @@
 			{
 				// Other OSes require parsing output from 'ps'.
 				$ps = self::FindExecutable("ps", "/bin");
-				$kill = self::FindExecutable("kill", "/bin");
 
-				if ($ps !== false && (function_exists("posix_kill") || $kill !== false))
+				if ($ps !== false && (function_exists("posix_kill") || ($kill = self::FindExecutable("kill", "/bin")) !== false))
 				{
-					$lines = array();
-					$cmd = escapeshellarg($ps) . " -ax -o ppid,pid";
-					@exec($cmd, $lines);
-
 					$ids = array($id);
 
 					if ($children)
 					{
+						$lines = array();
+						$cmd = escapeshellarg($ps) . " -ax -o ppid,pid";
+						@exec($cmd, $lines);
+
 						$childmap = array();
 						foreach ($lines as $line)
 						{
@@ -726,7 +788,7 @@
 			$result = $sy - $uy;
 			for ($ux = 0; $ux < $uy; $ux++)
 			{
-				$result |= ord($userinput{$ux}) ^ ord($secret{$sx});
+				$result |= ord($userinput[$ux]) ^ ord($secret[$sx]);
 				$sx = ($sx + 1) % $sy;
 			}
 
