@@ -1,6 +1,6 @@
 <?php
 	// FlexForms is the flexible, security-centric class for generating web forms.  Extracted from Barebones CMS with concepts from Admin Pack and SSO server and represents the culminaton of 7 years of precision development.
-	// (C) 2017 CubicleSoft.  All Rights Reserved.
+	// (C) 2020 CubicleSoft.  All Rights Reserved.
 
 	class FlexForms
 	{
@@ -190,11 +190,11 @@
 		{
 			if (!isset($this->state["jsoutput"]["jquery"]))
 			{
-				if ($delayjs)  $this->state["js"]["jquery"] = array("mode" => "src", "dependency" => false, "src" => $this->state["supporturl"] . "/jquery-3.1.1.min.js", "detect" => "jQuery");
+				if ($delayjs)  $this->state["js"]["jquery"] = array("mode" => "src", "dependency" => false, "src" => $this->state["supporturl"] . "/jquery-3.5.0.min.js", "detect" => "jQuery");
 				else
 				{
 ?>
-	<script type="text/javascript" src="<?php echo htmlspecialchars($this->state["supporturl"] . "/jquery-3.1.1.min.js"); ?>"></script>
+	<script type="text/javascript" src="<?php echo htmlspecialchars($this->state["supporturl"] . "/jquery-3.5.0.min.js"); ?>"></script>
 <?php
 
 					$this->state["jsoutput"]["jquery"] = true;
