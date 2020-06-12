@@ -65,6 +65,7 @@ Included and supported:
 * WinPEFile - Extract information, modify, and create Windows Portable Executable files.  [Documentation](https://github.com/cubiclesoft/php-winpefile/blob/master/docs/win_pe_file.md)  (support/win_pe_file.php)
 * WinPEUtils - Advanced data extraction and manipulation of Windows Portable Executable files.  [Documentation](https://github.com/cubiclesoft/php-winpefile/blob/master/docs/win_pe_utils.md)  (support/win_pe_utils.php)
 * XTerm - Static functions in a class for emitting XTerm-compatible escape codes to alter terminal behavior.  Mostly for changing font styles and colors but also supports most escape codes with easier to comprehend functions.  Many features also work with the Command Prompt in Windows 10 and later.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/xterm.md)  (support/xterm.php)
+* ZipStreamWriter - Generates ZIP files on the fly.  Stream content of any size to users.  [Documentation](https://github.com/cubiclesoft/php-zipstreamwriter/blob/master/docs/zipstreamwriter.md)  (support/zip_stream_writer.php)
 * simple_html_dom - Not actually a CubicleSoft class.  Accidental inclusion from Ultimate Web Scraper Toolkit.  \[Shrugs\]  Obsoleted by TagFilter.  (support/simple_html_dom.php)
 
 Other:
@@ -100,5 +101,6 @@ Sources
 * https://github.com/cubiclesoft/php-flexforms
 * https://github.com/cubiclesoft/php-misc
 * https://github.com/cubiclesoft/php-winpefile
+* https://github.com/cubiclesoft/php-zipstreamwriter
 * https://github.com/cubiclesoft/ultimate-email
 * https://github.com/cubiclesoft/ultimate-web-scraper
