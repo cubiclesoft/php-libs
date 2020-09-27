@@ -29,6 +29,7 @@
 	"LineDiff": "Static functions in a class for generating line-by-line diffs.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/line_diff.md)",
 	"MIMEParser": "Parses MIME content of all forms.  Intended primarily for use with POP3.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/mime_parser.md)",
 	"MultiAsyncHelper": "Not for the feint of heart.  This class simplifies management of mixing multiple non-blocking objects.  See the Ultimate Web Scraper toolkit test suite for example usage.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/multi_async_helper.md)",
+	"NaturalLanguage": "Static functions in a class for dynamically generating content based on data inputs and rulesets via PHP arrays.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/natural_language.md)",
 	"PHPMinifier": "Static functions in a class for minifying PHP code while still generally maintaining readability.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/php_minifier.md)",
 	"POP3": "Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/pop3.md)",
 	"ProcessHelper": "Static functions in a class for starting and terminating non-blocking processes across all platforms.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/process_helper.md)",
