@@ -295,7 +295,7 @@
 				else if ($cond[$cx] === ")")
 				{
 					// Handle ).
-					if (!$depth)  return array("success" => false, "error" => self::NLBTranslate("Found unexpected closing parenthesis at position %u in '%s'."), "errorcode" => "invalid_group_end");
+					if (!$depth)  return array("success" => false, "error" => self::NLBTranslate("Found unexpected closing parenthesis at position %u in '%s'.", $cx + 1, $cond), "errorcode" => "invalid_group_end");
 					if ($lasttoken !== false && $lasttoken[0] !== "var" && $lasttoken[0] !== "val" && $lasttoken[0] !== "grp_e")  return array("success" => false, "error" => self::NLBTranslate("Found invalid closing parenthesis at position %u in '%s'.", $cx + 1, $cond), "errorcode" => "invalid_group_end");
 
 					$lasttoken = array("grp_e", $cond[$cx]);
