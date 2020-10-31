@@ -67,7 +67,7 @@
 					{
 						if (!isset($rule["date"]) || !is_string($rule["date"]))  return array("success" => false, "error" => self::NLBTranslate("The 'date' format string does not exist as specified by rule '%s'.", $rkey), "errorcode" => "missing_date");
 
-						$ts = strtotime(($rule["format"] === "time" ? date("Y") . "-01-01" : "") . $val);
+						$ts = strtotime(($rule["format"] === "time" ? date("Y") . "-01-01 " : "") . $val);
 
 						$val = call_user_func((isset($rule["gmt"]) && $rule["gmt"] === true ? "gmdate" : "date"), $rule["date"], $ts);
 					}
