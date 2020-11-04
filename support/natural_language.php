@@ -136,14 +136,26 @@
 					{
 						if (isset($rule2["output"]))
 						{
-							if (is_string($rule2["output"]))  $rule2["output"] = array($rule2["output"]);
+							if (is_string($rule2["output"]))  $rule2["output"] = self::SplitOutput($rule2["output"]);
 
 							foreach ($rule2["output"] as $output)
 							{
 								if (substr($output, 0, 1) === "@")
 								{
+									$rkey2 = substr($output, 1);
 									$options["depth"]++;
-									$result = self::ProcessRule($data, $rules, substr($output, 1), $options);
+									$result = self::ProcessRule($data, $rules, $rkey2, $options);
+									$options["depth"]--;
+
+									if (!$result["success"])  return $result;
+
+									$val .= $result["value"];
+								}
+								else if (substr($output, 0, 2) === "{{" && substr($output, -2) === "}}")
+								{
+									$rkey2 = substr($output, 2, -2);
+									$options["depth"]++;
+									$result = self::ProcessRule($data, $rules, $rkey2, $options);
 									$options["depth"]--;
 
 									if (!$result["success"])  return $result;
@@ -298,13 +310,19 @@
 
 					if (isset($rule2["output"]))
 					{
-						if (is_string($rule2["output"]))  $rule2["output"] = array($rule2["output"]);
+						if (is_string($rule2["output"]))  $rule2["output"] = self::SplitOutput($rule2["output"]);
 
 						foreach ($rule2["output"] as $output)
 						{
 							if (substr($output, 0, 1) === "@")
 							{
 								$rkey2 = substr($output, 1);
+								if (!isset($rules[$rkey2]))  return array("success" => false, "error" => self::NLBTranslate("The rule '%s' does not exist.", $rkey2), "errorcode" => "invalid_rule_reference");
+								else  $options["ref_rules"][$rkey2] = true;
+							}
+							else if (substr($output, 0, 2) === "{{" && substr($output, -2) === "}}")
+							{
+								$rkey2 = substr($output, 2, -2);
 								if (!isset($rules[$rkey2]))  return array("success" => false, "error" => self::NLBTranslate("The rule '%s' does not exist.", $rkey2), "errorcode" => "invalid_rule_reference");
 								else  $options["ref_rules"][$rkey2] = true;
 							}
@@ -323,6 +341,44 @@
 			{
 				return array("success" => false, "error" => self::NLBTranslate("Rule type '%s' is invalid.  Expected 'data' or 'if'.", $rule["type"]), "errorcode" => "invalid_rule_type");
 			}
+		}
+
+		public static function SplitOutput($str)
+		{
+			$result = array();
+
+			$cx = 0;
+			$cx2 = 0;
+			$cy = strlen($str);
+			while ($cx < $cy)
+			{
+				if ($str[$cx] === "{" && $cx + 1 < $cy && $str[$cx + 1] === "{" && ($pos = strpos($str, "}}", $cx + 2)) !== false)
+				{
+					if ($cx2 < $cx)  $result[] = substr($str, $cx2, $cx - $cx2);
+
+					$result[] = substr($str, $cx, $pos - $cx + 2);
+
+					$cx = $pos + 2;
+					$cx2 = $cx;
+				}
+				else if ($str[$cx] === "[" && $cx + 1 < $cy && $str[$cx + 1] === "[" && ($pos = strpos($str, "]]", $cx + 2)) !== false)
+				{
+					if ($cx2 < $cx)  $result[] = substr($str, $cx2, $cx - $cx2);
+
+					$result[] = substr($str, $cx, $pos - $cx + 2);
+
+					$cx = $pos + 2;
+					$cx2 = $cx;
+				}
+				else
+				{
+					$cx++;
+				}
+			}
+
+			if ($cx2 < $cx)  $result[] = substr($str, $cx2, $cx - $cx2);
+
+			return $result;
 		}
 
 		public static function MakeConditional($tokens)
