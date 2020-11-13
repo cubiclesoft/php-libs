@@ -521,6 +521,32 @@
 
 					$cx = $pos + 2;
 				}
+				else if ((ord($cond[$cx]) >= $zero && ord($cond[$cx]) <= $nine) || $cond[$cx] === "." || (($cond[$cx] === "+" || $cond[$cx] === "-") && $cx + 1 < $cy && ((ord($cond[$cx + 1]) >= $zero && ord($cond[$cx + 1]) <= $nine) || $cond[$cx + 1] === ".") && ($lasttoken === false  || $lasttoken[0] === "op" || $lasttoken[0] === "lop" || $lasttoken[0] === "cond" || $lasttoken[0] === "grp_s")))
+				{
+					// Handle numeric values.
+					if ($lasttoken !== false && $lasttoken[0] !== "op" && $lasttoken[0] !== "lop" && $lasttoken[0] !== "cond" && $lasttoken[0] !== "grp_s")  return array("success" => false, "error" => self::NLBTranslate("Found invalid numeric start at position %u in '%s'.", $cx + 1, $cond), "errorcode" => "invalid_numeric_start");
+
+					$cx2 = $cx;
+					if ($cond[$cx] === "+" || $cond[$cx] === "-")  $cx2++;
+					$dot = false;
+					$e = false;
+					for (; $cx2 < $cy && ((ord($cond[$cx2]) >= $zero && ord($cond[$cx2]) <= $nine) || (!$dot && $cond[$cx2] === ".") || (!$e && ($cond[$cx2] === "e" || $cond[$cx2] === "E"))); $cx2++)
+					{
+						if (!$dot && $cond[$cx2] === ".")  $dot = true;
+
+						if (!$e && ($cond[$cx2] === "e" || $cond[$cx2] === "E"))
+						{
+							$e = true;
+
+							if ($cx2 + 1 < $cy && ($cond[$cx2 + 1] === "+" || $cond[$cx2 + 1] === "-"))  $cx2++;
+						}
+					}
+
+					$lasttoken = array("val", substr($cond, $cx, $cx2 - $cx));
+					$tokens[] = $lasttoken;
+
+					$cx = $cx2;
+				}
 				else if (($cond[$cx] === "&" || $cond[$cx] === "|") && $cx + 1 < $cy && $cond[$cx] === $cond[$cx + 1])
 				{
 					// Handle && and ||.
@@ -612,24 +638,6 @@
 					}
 
 					$cx++;
-				}
-				else if ((ord($cond[$cx]) >= $zero && ord($cond[$cx]) <= $nine) || $cond[$cx] === ".")
-				{
-					// Handle numeric values.
-					if ($lasttoken !== false && $lasttoken[0] !== "op" && $lasttoken[0] !== "lop" && $lasttoken[0] !== "cond" && $lasttoken[0] !== "grp_s")  return array("success" => false, "error" => self::NLBTranslate("Found invalid numeric start at position %u in '%s'.", $cx + 1, $cond), "errorcode" => "invalid_numeric_start");
-
-					$dot = false;
-					$e = false;
-					for ($cx2 = $cx; $cx2 < $cy && ((ord($cond[$cx2]) >= $zero && ord($cond[$cx2]) <= $nine) || (!$dot && $cond[$cx2] === ".") || (!$e && ($cond[$cx2] === "e" || $cond[$cx2] === "E"))); $cx2++)
-					{
-						if (!$dot && $cond[$cx2] === ".")  $dot = true;
-						if (!$e && ($cond[$cx2] === "e" || $cond[$cx2] === "E"))  $e = true;
-					}
-
-					$lasttoken = array("val", substr($cond, $cx, $cx2 - $cx));
-					$tokens[] = $lasttoken;
-
-					$cx = $cx2;
 				}
 				else if ($cond[$cx] === "\"" || $cond[$cx] === "'")
 				{
@@ -924,9 +932,10 @@
 					if (!self::ReduceConditionalCheckStacks($valstack, $parenstack, $opstack))  return array("success" => false, "error" => self::NLBTranslate("An unexpected/invalid operator was encountered in the tokens."), "errorcode" => "unexpected_operator");
 
 					if ($token[1] === "||" && count($valstack) && $valstack[count($valstack) - 1] != 0)  $skipops = true;
+					if ($token[1] === "&&" && count($valstack) && $valstack[count($valstack) - 1] == 0)  $skipops = true;
 
 					// Reduce the value stack by one.
-					if (count($valstack))  array_pop($valstack);
+					if (!$skipops && count($valstack))  array_pop($valstack);
 				}
 			}
 
