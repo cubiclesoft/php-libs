@@ -240,7 +240,7 @@
 				$options["ref_data"][$rule["key"]]++;
 
 				// Check the format.
-				if (isset($rule["format"]))
+				if (isset($rule["format"]) && $rule["format"] !== "")
 				{
 					if ($rule["format"] === "number")
 					{
