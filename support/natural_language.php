@@ -73,6 +73,8 @@
 				{
 					if ($rule["format"] === "number")
 					{
+						$val = preg_replace('/[^0-9Ee.]/', "", $val);
+
 						$val = number_format((double)$val, (isset($rule["decimals"]) ? (int)$rule["decimals"] : 0), (isset($rule["decpoint"]) && is_string($rule["decpoint"]) ? $rule["decpoint"] : "."), (isset($rule["separator"]) && is_string($rule["separator"]) ? $rule["separator"] : ","));
 					}
 					else if ($rule["format"] === "date" || $rule["format"] === "time")
