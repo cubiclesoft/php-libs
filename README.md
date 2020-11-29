@@ -3,7 +3,7 @@ CubicleSoft PHP Libraries
 
 A single repository containing all CubicleSoft PHP libraries.  Fully automated nightly updates.  MIT or LGPL, your choice.
 
-[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/)
+[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/) [![Discord](https://img.shields.io/discord/777282089980526602?label=chat&logo=discord)](https://cubiclesoft.com/product-support/github/)
 
 Classes
 -------
@@ -29,6 +29,7 @@ Included and supported:
 * DeflateStream - Compresses/Uncompresses deflate data (including gzip) in a streaming format without intermediate files.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/deflate_stream.md)  (support/deflate_stream.php)
 * DigitalOcean - A complete SDK for interacting with all DigitalOcean APIs.  (support/sdk_digitalocean.php)
 * DirHelper - Static functions in a class for simplifying common file system tasks regarding directories, including recursive copy, delete, and permissions changes when building installers, live demos, and testing tools.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/dir_helper.md)  (support/dir_helper.php)
+* DiscordSDK - An ultra-lightweight SDK for interacting with Discord APIs and Discord webhooks.  [Documentation](https://github.com/cubiclesoft/php-discord-sdk/blob/master/docs/sdk_discord.md)  (support/sdk_discord.php)
 * EFSS - Creates hierarchical, encrypted, compressed data stores.  Encrypted File Storage System is a real, virtual, mountable block-based file system for PHP.  [Documentation](https://github.com/cubiclesoft/efss)  (support/efss.php)
 * EmailBuilder - Powerful class for constructing fancy HTML emails using arrays without having to worry about HTML tables.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/email_builder.md)  (support/email_builder.php)
 * EventManager - Register to listen for events whenever the application fires them.  Can be the basis of a plugin/module system.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/event_manager.md)  (support/event_manager.php)
@@ -54,6 +55,7 @@ Included and supported:
 * TagFilterNode - TagFilterNodes::Get() returns a TagFilterNode object which provides easy but slower object-oriented access to TagFilterNodes.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md#tagfilternode-class)  (support/tag_filter.php)
 * TagFilterNodeIterator - Allows iteration over CSS3 query results from TagFilterNode::Find() using foreach.  Also has a Filter() function to further reduce results using additional CSS3 selectors.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md#tagfilternodeiterator-class)  (support/tag_filter.php)
 * TagFilterStream - Used by TagFilter but can be used separately for processing large HTML files in smaller chunks (aka a stream).  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/tag_filter.md#tagfilterstream-class)  (support/tag_filter.php)
+* TwilioSDK - An ultra-lightweight SDK for interacting with Twilio APIs.  [Documentation](https://github.com/cubiclesoft/php-twilio-sdk/blob/master/docs/sdk_twilio.md)  (support/sdk_twilio.php)
 * UTF8 - Flexible UTF-8 string manipulation static functions in a class.  CubicleSoft was doing Unicode and UTF-8 long before Unicode and UTF-8 were cool.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf8.md)  (support/utf8.php)
 * UTFUtils - Convert between various Unicode Transformation Formats (UTF-8, UTF-16, UTF-32).  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/utf_utils.md)  (support/utf_utils.php)
 * WebBrowser - Probably the most powerful state tracking system in pure PHP for web scraping.  Virtually indistiguishable from a real web browser and therefore extremely difficult to detect.  Has HTML form extraction and command-line shell interface capabilities.  I occasionally dream of adding a Javascript parsing engine to it.  Superior in every way to Guzzle when it comes to web scraping (Guzzle is an API consumer, not a web scraper - different domains).  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/web_browser.md)  (support/web_browser.php)
@@ -99,8 +101,10 @@ Sources
 * https://github.com/cubiclesoft/digitalocean
 * https://github.com/cubiclesoft/efss
 * https://github.com/cubiclesoft/php-csprng
+* https://github.com/cubiclesoft/php-discord-sdk
 * https://github.com/cubiclesoft/php-flexforms
 * https://github.com/cubiclesoft/php-misc
+* https://github.com/cubiclesoft/php-twilio-sdk
 * https://github.com/cubiclesoft/php-winpefile
 * https://github.com/cubiclesoft/php-zipstreamwriter
 * https://github.com/cubiclesoft/ultimate-email

@@ -9,7 +9,7 @@ CubicleSoft releases its open source software under a dual-license because choic
 
 While the software is free to use, donations are sincerely appreciated.
 
-[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/)
+[![Donate](https://cubiclesoft.com/res/donate-shield.png)](https://cubiclesoft.com/donate/) [![Discord](https://img.shields.io/discord/777282089980526602?label=chat&logo=discord)](https://cubiclesoft.com/product-support/github/)
 
 MIT License
 -----------
