@@ -90,6 +90,7 @@ Other:
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
 * LibEvGenericServer - Internal or undocumented class.  (support/generic_server_libev.php)
 * SerialNumber - Internal or undocumented class.  (support/serial_number.php)
+* DOHWebBrowser - Internal or undocumented class.  (support/doh_web_browser.php)
 * LibEvWebSocketServer - Internal or undocumented class.  (support/websocket_server_libev.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
 * WebServer_Client - Internal or undocumented class.  (support/web_server.php)
