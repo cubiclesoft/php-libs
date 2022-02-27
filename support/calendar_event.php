@@ -1,13 +1,13 @@
 <?php
 	// Calendar event class.  Supports all types of schedules using a cron-like format.
-	// (C) 2018 CubicleSoft.  All Rights Reserved.
+	// (C) 2022 CubicleSoft.  All Rights Reserved.
 
 	class CalendarEvent
 	{
 		private $data, $data2, $now;
 
-		private static $allmonths = array("jan" => 1, "feb" => 2, "mar" => 3, "apr" => 4, "may" => 5, "jun" => 6, "jul" => 7, "aug" => 8, "sep" => 9, "oct" => 10, "nov" => 11, "dec" => 12);
-		private static $allweekdays = array("sun" => 0, "mon" => 1, "tue" => 2, "wed" => 3, "thu" => 4, "fri" => 5, "sat" => 6);
+		public static $allmonths = array("jan" => 1, "feb" => 2, "mar" => 3, "apr" => 4, "may" => 5, "jun" => 6, "jul" => 7, "aug" => 8, "sep" => 9, "oct" => 10, "nov" => 11, "dec" => 12);
+		public static $allweekdays = array("sun" => 0, "mon" => 1, "tue" => 2, "wed" => 3, "thu" => 4, "fri" => 5, "sat" => 6);
 
 		public function __construct($data = array())
 		{
@@ -102,6 +102,7 @@
 		//   Prefix 'N+' to look ahead for a match first.  Useful for preferring the following Monday instead of Friday if the day is Saturday.  When the 'R' prefix for 'days' is specified, the direction is inverted.
 		// The 'duration' option specifies how long each instance of the schedule lasts (in seconds).  Could be used for identifying scheduling conflicts or maximum execution time.
 		// Prepend 'cron' to the string to get an old-school crontab format:  cron [secs] mins hours days months weekday
+		// Prepend 'cron' to the string to get a modernized crontab format:  cron secs mins hours days months weekday weekrows startdate[/dayskip[/weekskip]] enddate [duration]
 		//
 		// Example:  Jan,7 * * 1,15-17 0 0 0 2010-01-01 *
 		//           (Every January and July 1st, and 15th-17th at midnight starting at Jan 1, 2010.)
@@ -129,14 +130,27 @@
 
 			if (is_string($options))
 			{
-				$opts = explode(" ", preg_replace('/\s+/', " ", $options));
-				if (count($opts) == 7 && strtolower($opts[0]) == "cron")
+				$opts = explode(" ", preg_replace('/\s+/', " ", trim($options)));
+
+				// Rewrite the array to the internal format from a crontab format.
+				if (count($opts) && strtolower($opts[0]) == "cron")
 				{
-					$opts = array($opts[5], "*", $opts[6], $opts[4], $opts[3], $opts[2], $opts[1], date("Y-m-d"), "*");
-				}
-				else if (count($opts) == 6 && strtolower($opts[0]) == "cron")
-				{
-					$opts = array($opts[4], "*", $opts[5], $opts[3], $opts[2], $opts[1], "0", date("Y-m-d"), "*");
+					if (count($opts) > 9)
+					{
+						$opts2 = array($opts[5], $opts[7], $opts[6], $opts[4], $opts[3], $opts[2], $opts[1], $opts[8], $opts[9]);
+
+						if (count($opts) > 10)  $opts2[] = $opts[10];
+
+						$opts = $opts2;
+					}
+					else if (count($opts) == 7)
+					{
+						$opts = array($opts[5], "*", $opts[6], $opts[4], $opts[3], $opts[2], $opts[1], date("Y-m-d", $this->now), "*");
+					}
+					else if (count($opts) == 6)
+					{
+						$opts = array($opts[4], "*", $opts[5], $opts[3], $opts[2], $opts[1], "0", date("Y-m-d", $this->now), "*");
+					}
 				}
 
 				if (count($opts) < 9 || count($opts) > 10)  return array("success" => false, "error" => "Invalid number of options.");
@@ -161,7 +175,7 @@
 				if (isset($options["hours"]) && $options["hours"] != "*")  $schedule["hours"] = $options["hours"];
 				if (isset($options["mins"]) && $options["mins"] != "*")  $schedule["mins"] = $options["mins"];
 				if (isset($options["secs"]) && $options["secs"] != "*")  $schedule["secs"] = $options["secs"];
-				$schedule["startdate"] = (isset($options["startdate"]) ? $options["startdate"] : date("Y-m-d"));
+				$schedule["startdate"] = (isset($options["startdate"]) ? $options["startdate"] : date("Y-m-d", $this->now));
 				if (isset($options["enddate"]) && $options["enddate"] != "*")  $schedule["enddate"] = $options["enddate"];
 				if (isset($options["duration"]) && $options["duration"] != "")  $schedule["duration"] = $options["duration"];
 			}
@@ -253,8 +267,8 @@
 			}
 			else if (is_array($options))
 			{
-				$exception["srcdate"] = (isset($options["srcdate"]) ? $options["srcdate"] : date("Y-m-d"));
-				$exception["destdate"] = (isset($options["destdate"]) ? $options["destdate"] : date("Y-m-d"));
+				$exception["srcdate"] = (isset($options["srcdate"]) ? $options["srcdate"] : date("Y-m-d", $this->now));
+				$exception["destdate"] = (isset($options["destdate"]) ? $options["destdate"] : date("Y-m-d", $this->now));
 				if (isset($options["hours"]) && $options["hours"] != "*")  $exception["hours"] = $options["hours"];
 				if (isset($options["mins"]) && $options["mins"] != "*")  $exception["mins"] = $options["mins"];
 				if (isset($options["secs"]) && $options["secs"] != "*")  $exception["secs"] = $options["secs"];
@@ -822,7 +836,7 @@
 			}
 		}
 
-		private function FindNextTriggerToday($ts, $newts, &$info, $type, $id)
+		public static function FindNextTriggerToday($ts, $newts, &$info, $type, $id)
 		{
 			foreach ($info["hours"] as $hour => $val)
 			{
@@ -878,7 +892,7 @@
 		}
 
 		// Internal function to expand a timestamp to its correct value (auto-adjusts for DST).
-		private function ExpandNewTS($newts, $year, $month, $day)
+		public static function ExpandNewTS($newts, $year, $month, $day)
 		{
 			if ($newts === false)  return false;
 
@@ -990,10 +1004,12 @@
 					if ($expr2 > $maxnum)  return array("success" => false, "error" => "'" . $expr2 . "' is out of range (greater than " . $maxnum . ").");
 
 					$expanded[$expr2] = true;
+					$expr2 += $skipnum;
+
 					while ($expr2 <= $maxnum)
 					{
-						$expr2 += $skipnum;
 						$expanded[$expr2] = true;
+						$expr2 += $skipnum;
 					}
 				}
 			}
