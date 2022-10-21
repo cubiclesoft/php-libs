@@ -39,6 +39,10 @@ Included and supported:
 * GenericServer - Implements a generic TCP/IP server class.  Can be used for creating custom protocols.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/generic_server.md)  (support/generic_server.php)
 * LibEvGenericServer - The PECL ev integrated version of GenericServer for writing scalable servers.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/generic_server_libev.md)  (support/generic_server_libev.php)
 * HTTP - Baseline static functions in a class for performing all things HTTP.  Has powerful URL parsing tools (e.g. relative to absolute URL conversion).  Used primarily by WebBrowser.  Asynchronous capable.  [Documentation](https://github.com/cubiclesoft/ultimate-web-scraper/blob/master/docs/http.md)  (support/http.php)
+* IFDS - Incredibly Flexible Data Storage (IFDS) class for creating scalable custom binary file formats.  [Documentation](https://github.com/cubiclesoft/ifds/blob/master/docs/ifds.md)  (support/ifds.php)
+* IFDS_Conf - IFDS CONF implementation class for replacing configuration files.  [Documentation](https://github.com/cubiclesoft/ifds/blob/master/docs/ifds_conf.md)  (support/ifds_conf.php)
+* IFDS_ConfDef - IFDS CONF-DEF implementation class for building a generic tool to edit any IFDS CONF file.  [Documentation](https://github.com/cubiclesoft/ifds/blob/master/docs/ifds_conf.md)  (support/ifds_conf.php)
+* IFDS_Text - IFDS TEXT implementation class for replacing text files.  [Documentation](https://github.com/cubiclesoft/ifds/blob/master/docs/ifds_text.md)  (support/ifds_text.php)
 * IPAddr - Static functions in a class for processing IPv4 and IPv6 addresses into a uniform format.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/ipaddr.md)  (support/ipaddr.php)
 * LineDiff - Static functions in a class for generating line-by-line diffs.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/line_diff.md)  (support/line_diff.php)
 * MIMEParser - Parses MIME content of all forms.  Intended primarily for use with POP3.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/mime_parser.md)  (support/mime_parser.php)
@@ -46,6 +50,7 @@ Included and supported:
 * NaturalLanguage - Static functions in a class for dynamically generating content based on data inputs and rulesets via PHP arrays.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/natural_language.md)  (support/natural_language.php)
 * PHPMinifier - Static functions in a class for minifying PHP code while still generally maintaining readability.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/php_minifier.md)  (support/php_minifier.php)
 * POP3 - Powerful class for accessing a POP3 server.  Pair it with MIMEParser and TagFilter for advanced e-mail handling.  [Documentation](https://github.com/cubiclesoft/ultimate-email/blob/master/docs/pop3.md)  (support/pop3.php)
+* PagingFileCache - High performance file reading/writing class.  [Documentation](https://github.com/cubiclesoft/ifds/blob/master/docs/paging_file_cache.md)  (support/paging_file_cache.php)
 * ProcessHelper - Static functions in a class for starting and terminating non-blocking processes across all platforms.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/process_helper.md)  (support/process_helper.php)
 * ReadWriteLock - A very old class that implements a cross-platform, named read-write lock for very old versions of PHP.  Use the [PECL sync](http://php.net/manual/en/book.sync.php) extension instead.  [Documentation](https://github.com/cubiclesoft/efss/blob/master/docs/read_write_lock.md)  (support/read_write_lock.php)
 * Request - Static functions in a class for doing basic, common, but missing request initialization handling.  Common initialization routines for CubicleSoft applications.  [Documentation](https://github.com/cubiclesoft/php-misc/blob/master/docs/request.md)  (support/request.php)
@@ -90,6 +95,7 @@ Other:
 * Crypt_AES - Internal or undocumented class.  (support/AES.php)
 * Crypt_Base - Internal or undocumented class.  (support/Base.php)
 * Crypt_Rijndael - Internal or undocumented class.  (support/Rijndael.php)
+* IFDS_RefCountObj - Internal or undocumented class.  (support/ifds.php)
 * CalendarEvent_TZSwitch - Internal or undocumented class.  (support/calendar_event.php)
 * simple_html_dom_node - Internal or undocumented class.  (support/simple_html_dom.php)
 * WebServer_TempFile - Internal or undocumented class.  (support/web_server.php)
@@ -101,6 +107,7 @@ Sources
 * https://github.com/cubiclesoft/csdb
 * https://github.com/cubiclesoft/digitalocean
 * https://github.com/cubiclesoft/efss
+* https://github.com/cubiclesoft/ifds
 * https://github.com/cubiclesoft/php-csprng
 * https://github.com/cubiclesoft/php-discord-sdk
 * https://github.com/cubiclesoft/php-flexforms
